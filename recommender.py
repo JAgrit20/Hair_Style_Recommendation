@@ -53,9 +53,9 @@ def process_rec_pics(style_df,image_dir = "data/pics"):
                         filenum += 1
     return(filenum)
 
-process_rec_pics(style_df)
+# process_rec_pics(style_df)
 
-style_df
+# style_df
 
 def run_recommender(test_shape):
     name = input("What is your name? ")

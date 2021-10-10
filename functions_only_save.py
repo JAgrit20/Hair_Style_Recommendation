@@ -237,6 +237,7 @@ def make_face_df_save(image_select,filenum,df):
             
         df.loc[filenum] = np.array(pts)
         #imshow(pil_image, cmap='gray')
+        
             
 def find_face_shape(df,file_num):
     data = pd.read_csv('all_features.csv',index_col = None)
@@ -317,22 +318,57 @@ def getting_image_attribute():
                                 'A10','A11','A12','A13','A14','A15','A16','Width','Height','H_W_Ratio','Jaw_width','J_F_Ratio',
                                 'MJ_width','MJ_J_width'])
     
+    print(df2)
 
     import os, sys
 
 # Open a file
-    path = "C:/Users/DELL/OneDrive - Shri Vile Parle Kelavani Mandal/Desktop/Hair_Style_Recommendation-master/static/uploads/"
+    path = "A:/Hairstyle_recommender/Hair_Style_Recommendation/shots2/"
     dirs = os.listdir( path )
 
-# This would print all the files and directories
+# This would print all the files and directorie
+    i =0
+    shapes = []
     for file in dirs:
+        # print("file in the upload directory", file)
         newf = path+ file
-        make_face_df_save(newf, 0, df2)
-        # df2.append(df1)
+        make_face_df_save(newf, i, df2)
+        print(df2)
         
-    df2.to_csv('check.csv')    
+        shapes.append(find_face_shape(df2, i))
+        i= i+1
+        # df2.append(df1)
+    df2["image"] = np.array(dirs)
+    df2["classified_shape"] = np.array(shapes)
+    # directory = "Mens_picture_data"
+    # parent_dir = "A:/Hairstyle_recommender/Hair_Style_Recommendation/"
+    # path = os.path.join(parent_dir, directory)
+    # print("df2", df2)
+    # os.mkdir(path)
+    
+    # parent_dir = "A:/Hairstyle_recommender/Hair_Style_Recommendation/Mens_picture_data/"
+    # directory_list = ["oval", "round", "heart", "square", "long"]
+    # for directory in directory_list:
+    #     path = os.path.join(parent_dir, directory)
+    #     os.mkdir(path)
+    df2.to_csv('check.csv')  
+    
+    total_pictures = df2.shape[0]
+    image_path_initial = list(df2["image"])[0]
+    print("image_path", image_path_initial)
+    image =  Image.open(path+image_path_initial)
+    image_save_path = "A:/Hairstyle_recommender/Hair_Style_Recommendation/Mens_picture_data/"+str(list(df2["classified_shape"])[0])+ '/'+ image_path_initial
+    print(image_save_path)
+    image.save(image_save_path)
+    imshow(image)    
+    # for i in range(total_pictures):
+    #     image_path_initial = df2["image"]
+    #     image =  Image.open(image_path_initial)
+    #     image.save("A:/Hairstyle_recommender/Hair_Style_Recommendation/Mens_picture_data/"+df2[i]["classified_shape"]+"/"+str(i)+".jpg")
+        
+
+    # df2.to_csv('check.csv')  
     print(df2)
     # df2.to_csv('A:/Hairstyle_recommender/Hair_Style_Recommendation/df_test.csv')
-    print(find_face_shape(df2, 0))
     
 getting_image_attribute()
