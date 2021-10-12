@@ -234,7 +234,7 @@ def make_face_df_save(image_select,filenum,df):
         pts.append(mid_jaw_width_to_jaw_width)
         
         ### end of new ###
-            
+          
         df.loc[filenum] = np.array(pts)
         #imshow(pil_image, cmap='gray')
         
@@ -300,75 +300,73 @@ def find_face_shape(df,file_num):
     test_shape = best_mlp.predict(test_row)
     return test_shape
 
-def getting_image_attribute():
-    # file_num = 2035
+# def getting_image_attribute():
+#     # file_num = 2035
     
-    df2 = pd.DataFrame(columns = ['0','1','2','3','4','5','6','7','8','9','10','11',	'12',	'13',	'14',	'15',	'16','17',
-                                '18',	'19',	'20',	'21',	'22',	'23',	'24','25',	'26',	'27',	'28',	'29',
-                                '30',	'31',	'32',	'33',	'34',	'35',	'36',	'37',	'38',	'39',	'40',	'41',
-                                '42',	'43',	'44',	'45',	'46',	'47',	'48',	'49',	'50',	'51',	'52',	'53',
-                                '54',	'55',	'56',	'57',	'58',	'59',	'60',	'61',	'62',	'63',	'64',	'65',
-                                '66',	'67',	'68',	'69',	'70',	'71',	'72',	'73',	'74',	'75',	'76',	'77',
-                                '78',	'79',	'80',	'81',	'82',	'83',	'84',	'85',	'86',	'87',	'88',	'89',
-                                '90',	'91',	'92',	'93',	'94',	'95',	'96',	'97',	'98',	'99',	'100',	'101',
-                                '102',	'103',	'104',	'105',	'106',	'107',	'108',	'109',	'110',	'111',	'112',	'113',
-                                '114',	'115',	'116',	'117',	'118',	'119',	'120',	'121',	'122',	'123',	'124',	'125',
-                                '126',	'127',	'128',	'129',	'130',	'131',	'132',	'133',	'134',	'135',	'136',	'137',
-                                '138',	'139',	'140',	'141',	'142',	'143','A1','A2','A3','A4','A5','A6','A7','A8','A9',
-                                'A10','A11','A12','A13','A14','A15','A16','Width','Height','H_W_Ratio','Jaw_width','J_F_Ratio',
-                                'MJ_width','MJ_J_width'])
+#     df2 = pd.DataFrame(columns = ['0','1','2','3','4','5','6','7','8','9','10','11',	'12',	'13',	'14',	'15',	'16','17',
+#                                 '18',	'19',	'20',	'21',	'22',	'23',	'24','25',	'26',	'27',	'28',	'29',
+#                                 '30',	'31',	'32',	'33',	'34',	'35',	'36',	'37',	'38',	'39',	'40',	'41',
+#                                 '42',	'43',	'44',	'45',	'46',	'47',	'48',	'49',	'50',	'51',	'52',	'53',
+#                                 '54',	'55',	'56',	'57',	'58',	'59',	'60',	'61',	'62',	'63',	'64',	'65',
+#                                 '66',	'67',	'68',	'69',	'70',	'71',	'72',	'73',	'74',	'75',	'76',	'77',
+#                                 '78',	'79',	'80',	'81',	'82',	'83',	'84',	'85',	'86',	'87',	'88',	'89',
+#                                 '90',	'91',	'92',	'93',	'94',	'95',	'96',	'97',	'98',	'99',	'100',	'101',
+#                                 '102',	'103',	'104',	'105',	'106',	'107',	'108',	'109',	'110',	'111',	'112',	'113',
+#                                 '114',	'115',	'116',	'117',	'118',	'119',	'120',	'121',	'122',	'123',	'124',	'125',
+#                                 '126',	'127',	'128',	'129',	'130',	'131',	'132',	'133',	'134',	'135',	'136',	'137',
+#                                 '138',	'139',	'140',	'141',	'142',	'143','A1','A2','A3','A4','A5','A6','A7','A8','A9',
+#                                 'A10','A11','A12','A13','A14','A15','A16','Width','Height','H_W_Ratio','Jaw_width','J_F_Ratio',
+#                                 'MJ_width','MJ_J_width'])
     
-    print(df2)
+#     print(df2)
 
-    import os, sys
+#     import os, sys
 
-# Open a file
-    path = "A:/Hairstyle_recommender/Hair_Style_Recommendation/shots2/"
-    dirs = os.listdir( path )
+# # Open a file
+#     path = "A:/Hairstyle_recommender/Hair_Style_Recommendation/shots2/"
+#     dirs = os.listdir( path )
 
-# This would print all the files and directorie
-    i =0
-    shapes = []
-    for file in dirs:
-        # print("file in the upload directory", file)
-        newf = path+ file
-        make_face_df_save(newf, i, df2)
-        print(df2)
+# # This would print all the files and directorie
+#     i =0
+#     shapes = []
+#     for file in dirs:
+#         # print("file in the upload directory", file)
+#         newf = path+ file
+#         make_face_df_save(newf, i, df2)
+#         print(df2)
         
-        shapes.append(find_face_shape(df2, i))
-        i= i+1
-        # df2.append(df1)
-    df2["image"] = np.array(dirs)
-    df2["classified_shape"] = np.array(shapes)
-    # directory = "Mens_picture_data"
-    # parent_dir = "A:/Hairstyle_recommender/Hair_Style_Recommendation/"
-    # path = os.path.join(parent_dir, directory)
-    # print("df2", df2)
-    # os.mkdir(path)
+#         shapes.append(find_face_shape(df2, i))
+#         i= i+1
+#         # df2.append(df1)
+#     df2["image"] = np.array(dirs)
+#     df2["classified_shape"] = np.array(shapes)
+#     directory = "Mens_picture_data"
+#     parent_dir = "A:/Hairstyle_recommender/Hair_Style_Recommendation/"
+#     path = os.path.join(parent_dir, directory)
+#     print("df2", df2)
+#     os.mkdir(path)
     
-    # parent_dir = "A:/Hairstyle_recommender/Hair_Style_Recommendation/Mens_picture_data/"
-    # directory_list = ["oval", "round", "heart", "square", "long"]
-    # for directory in directory_list:
-    #     path = os.path.join(parent_dir, directory)
-    #     os.mkdir(path)
-    df2.to_csv('check.csv')  
+#     parent_dir = "A:/Hairstyle_recommender/Hair_Style_Recommendation/Mens_picture_data/"
+#     directory_list = ["oval", "round", "heart", "square", "long"]
+#     for directory in directory_list:
+#         path = os.path.join(parent_dir, directory)
+#         os.mkdir(path)
+#     df2.to_csv('check.csv')  
     
-    total_pictures = df2.shape[0]
-    image_path_initial = list(df2["image"])[0]
-    print("image_path", image_path_initial)
-    image =  Image.open(path+image_path_initial)
-    image_save_path = "A:/Hairstyle_recommender/Hair_Style_Recommendation/Mens_picture_data/"+str(list(df2["classified_shape"])[0])+ '/'+ image_path_initial
-    print(image_save_path)
-    image.save(image_save_path)
-    imshow(image)    
-    # for i in range(total_pictures):
-    #     image_path_initial = df2["image"]
-    #     image =  Image.open(image_path_initial)
-    #     image.save("A:/Hairstyle_recommender/Hair_Style_Recommendation/Mens_picture_data/"+df2[i]["classified_shape"]+"/"+str(i)+".jpg")
+#     total_pictures = df2.shape[0]
+    
+       
+#     for i in range(total_pictures):
+#         image_path_initial = list(df2["image"])[i]
+#         print("image_path", image_path_initial)
+#         image =  Image.open(path+image_path_initial)
+#         image_save_path = "A:/Hairstyle_recommender/Hair_Style_Recommendation/Mens_picture_data/"+str(list(df2["classified_shape"])[i])+'/'+ image_path_initial
+#         print(image_save_path)
+#         image.save(image_save_path)
         
-
-    # df2.to_csv('check.csv')  
-    print(df2)
-    # df2.to_csv('A:/Hairstyle_recommender/Hair_Style_Recommendation/df_test.csv')
+        
+#     # df2.to_csv('check.csv')  
+#     print(df2)
+#     # df2.to_csv('A:/Hairstyle_recommender/Hair_Style_Recommendation/df_test.csv')
     
-getting_image_attribute()
+# getting_image_attribute()

@@ -10,9 +10,8 @@ from recommender import process_rec_pics, run_recommender_face_shape
 from flask import Flask, flash, request, redirect, url_for, render_template
 import urllib.request
 import os
-from werkzeug.utils import secure_filename
- 
-
+# from werkzeug.utils import secure_filenam 
+from Gender_age_detection import detect_gender_age
 
 app = Flask(__name__, static_url_path="")
 
@@ -40,7 +39,7 @@ def index():
 def predict():
     """Return a random prediction."""
     data = request.json
-    test_photo = 'data/pics/recommendation_pics/' + data['file_name']
+    test_photo = 'A:/Hairstyle_recommender/Hair_Style_Recommendation/data/pics/recommendation_pics/' + data['file_name']
     file_num = 2035
     style_df = pd.DataFrame()
     style_df = pd.DataFrame(columns = ['face_shape','hair_length','location','filename','score'])
@@ -53,10 +52,17 @@ def predict():
         if hair_length_input in ['long','longer','l','L']:
                 hair_length_input = 'Long'
 
-    make_face_df_save(test_photo,file_num,df)
-    face_shape = find_face_shape(df,file_num)
-    process_rec_pics(style_df)
-    img_filename = run_recommender_face_shape(face_shape[0],style_df,hair_length_input)
+    Age, Gender = detect_gender_age(test_photo)
+    print(Gender, Age)
+    make_face_df_save(test_photo, file_num, df)
+    print("df", df.to_csv("ayush"))
+    print(df.shape)
+    face_shape = find_face_shape(df, file_num)
+    print("face shape", face_shape )
+    print(df.to_csv("ayush_shape"))
+    style_df = process_rec_pics(style_df, Gender, Age)
+    print('style_df', style_df)
+    img_filename = run_recommender_face_shape(face_shape[0],style_df,hair_length_input, Gender)
     return jsonify({'Face Shape': face_shape[0], 'img_filename': img_filename})
 
 @app.route('/predict_user_face_shape', methods=['GET', 'POST'])

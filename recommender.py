@@ -13,24 +13,23 @@ import matplotlib.pyplot as plt
 import uuid
 
 image_dir = "data/pics"
-
-style_df = pd.DataFrame()
-style_df = pd.DataFrame(columns = ['face_shape','hair_length','location','filename','score'])
-
-def process_rec_pics(style_df,image_dir = "data/pics"):
-    image_root = "data/rec_pics" 
-    dir_list = ['heart','long','oval','square','round']
-    filenum = 0   
-    for dd in dir_list: 
+# this is use to fill style_df with 6 image from each shape
+def process_rec_pics(style_df, Gender, Age):
+    filenum = 2035
+    if(Gender == "Female"):
+        image_root = "data/rec_pics" 
+        dir_list = ['heart','long','oval','square','round']
+        style_df = pd.DataFrame(columns = ['face_shape','hair_length','location','filename','score'])
+        for dd in dir_list: 
             image_dir = image_root + '/' + dd
             sub_dir = [q for q in pathlib.Path(image_dir).iterdir() if q.is_dir()]
-            #print(sub_dir)
+            print("sub_directory", sub_dir)
             start_j = 0
             end_j = len(sub_dir)
 
             for j in range(start_j, end_j):
                     #images_dir = [p for p in pathlib.Path(sub_dir[j]).iterdir() if p.is_file()]
-
+                    print("inside for loop in process rec pics")
                     for p in pathlib.Path(sub_dir[j]).iterdir():
                         shape_array= []
 
@@ -51,8 +50,30 @@ def process_rec_pics(style_df,image_dir = "data/pics"):
                         style_df.loc[filenum] = np.array(shape_array)
 
                         filenum += 1
-    return(filenum)
-
+    
+    else:
+        style_df = pd.DataFrame(columns = ['face_shape','location','filename','score'])
+        image_root = 'Mens_picture_data' 
+        dir_list = ['heart','long','oval','square','round']
+        for dd in dir_list: 
+            image_dir = image_root + '/' + dd
+            for image in pathlib.Path(image_dir).iterdir():
+            
+                    print("image", image)
+                    #images_dir = [p for p in pathlib.Path(sub_dir[j]).iterdir() if p.is_file()]   
+                    shape_array= []
+                    face_shape = image_dir
+                    shape_array.append(dd)
+                    shape_array.append(str(image))    
+                    random.seed(filenum) 
+                    shape_array.append(filenum)# this keeps the score the same each time I run it
+                    rand = random.randint(25,75)  # make a random score to start the rec. engine
+                    shape_array.append(rand)
+                    style_df.loc[filenum] = np.array(shape_array)
+                    filenum += 1    
+                    
+        print("style_df", style_df)
+        return style_df
 # process_rec_pics(style_df)
 
 # style_df
@@ -114,21 +135,25 @@ def run_recommender(test_shape):
         if str(row) == str(yuck):
             style_df.at[srow,'score'] =  style_df.at[srow,'score'] - 5
 
-def run_recommender_face_shape(test_shape,style_df,hair_length_input):
+def run_recommender_face_shape(test_shape,style_df,hair_length_input, Gender):
     face_shape_input = test_shape
     r = 6
-    
     n_col = 3
     n_row = 2
     img_path = []
-    recommended_df = style_df.loc[(style_df['face_shape'] ==face_shape_input) & (style_df['hair_length']== hair_length_input)].sort_values('score', ascending = 0).reset_index(drop=True)
-    recommended_df = recommended_df.head(r)
-    
+    if(Gender == "Female"):
+        recommended_df = style_df.loc[(style_df['face_shape'] ==face_shape_input) & (style_df['hair_length']== hair_length_input)].sort_values('score', ascending = 0).reset_index(drop=True)
+        recommended_df = recommended_df.head(r)
+    else:
+        recommended_df = style_df.loc[(style_df['face_shape'] ==face_shape_input)].sort_values('score', ascending = 0).reset_index(drop=True)
+        recommended_df = recommended_df.head(r)
+        
     plt.figure(figsize=(4 * n_col, 3 * n_row))
     plt.subplots_adjust(bottom=.06, left=.01, right=.99, top=.90, hspace=.50)    
     font = ImageFont.truetype("fonts/Arial.ttf", 60)
     for p in range(0,r):
         idea = str(recommended_df.iloc[p]['location'] )
+        print("idea", idea)
         idea = idea.replace('\\', '/')
         img = Image.open(idea)
         plt.subplot(n_row, n_col, p+1 )
