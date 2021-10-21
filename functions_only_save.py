@@ -321,7 +321,7 @@ def getting_image_attribute():
     import os, sys
 
 # Open a file
-    path = "C:/Users/DELL/OneDrive - Shri Vile Parle Kelavani Mandal/Desktop/Hair_Style_Recommendation-master/static/uploads/"
+    path = "static/uploads/"
     dirs = os.listdir( path )
 
 # This would print all the files and directories
