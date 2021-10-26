@@ -15,7 +15,9 @@ from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__, static_url_path="")
-
+app.secret_key = "secret key"
+app.config["imgupload"] = "C:/Users/91773/Hair_Style_Recommendation/data/pics/recommendation_pics"
+app.config["allowed"]=["jpeg","png","jpg"]
 df = pd.DataFrame(columns = ['0','1','2','3','4','5','6','7','8','9','10','11',	'12',	'13',	'14',	'15',	'16','17',
                              '18',	'19',	'20',	'21',	'22',	'23',	'24','25',	'26',	'27',	'28',	'29',
                              '30',	'31',	'32',	'33',	'34',	'35',	'36',	'37',	'38',	'39',	'40',	'41',
@@ -34,6 +36,29 @@ df = pd.DataFrame(columns = ['0','1','2','3','4','5','6','7','8','9','10','11',	
 @app.route('/')
 def index():
     """Return the main page."""
+    return render_template('theme.html')
+
+def allowed(imgname):
+    if not "." in imgname:
+        return False
+    if imgname.rsplit(".",1)[1] not in app.config["allowed"]:
+        return False
+    return True
+
+@app.route("/upload", methods=["GET","POST"])
+def upload():
+    if request.method=="POST":
+        #print("in post")
+        if request.files:
+            img=request.files['file']
+            #print(img)
+            if img.filename!="" and allowed(img.filename):
+                #print("image")
+                #filename="hello.jpg"
+                filename=secure_filename(img.filename)
+                #print(os.path.join(app.config["imgupload"],filename))
+                img.save(os.path.join(app.config["imgupload"],filename))
+                print(filename)
     return render_template('theme.html')
 
 @app.route('/predict', methods=['GET', 'POST'])
@@ -66,14 +91,16 @@ def predict_user_face_shape():
     test_photo = 'data/pics/recommendation_pics/' + data['file_name']
     file_num = 2035
     
+    make_face_df_save(test_photo,file_num,df)
+    face_shape = find_face_shape(df,file_num)
+    return jsonify({'face_shape': face_shape[0]})
+
 @app.route('/capture_img', methods=['POST'])
 def capture_img():
     msg = service.save_img(request.form["img"])
     return make_response(msg)
 
-    make_face_df_save(test_photo,file_num,df)
-    face_shape = find_face_shape(df,file_num)
-    return jsonify({'face_shape': face_shape[0]})
+
 
 @app.route('/output/<img_filename>')
 def output_image(img_filename):

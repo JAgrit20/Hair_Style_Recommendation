@@ -91,33 +91,49 @@ document["predict_button"].bind("click", get_prediction)
 document["predict_face_shape"].bind("click", get_face_shape)
       
     </script>
-     <script type="text/javascript">
-        $(document).ready(function(){
-            $('input[type="file"]').change(function(e){
-                var preview = document.querySelector('.img-upload-pic'); //selects the query named img
-                var file    = document.querySelector('input[type=file]').files[0]; 
-                var predict_button_click = document.getElementById("predict_button");
-                var find_face_shape = document.getElementById("predict_face_shape");
-
-                var reader  = new FileReader();
-                reader.onloadend = function () {
-                  preview.src = reader.result;
-                  $("#uploadfilename").val(file.name)
-                  predict_button_click.style.color = "black";
-                  predict_button_click.style.borderColor = "black";
-                  document.querySelector('#featuressection').click();
-                  find_face_shape.click();
-                }
-              if (file) {
-                reader.readAsDataURL(file); //reads the data as a URL
-              } else {
-                preview.src = "";
-                predict_button_click.style.color = "white";
-                predict_button_click.style.borderColor = "white";
-              }
-            });
-        });
-      </script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+          $('input[type="file"]').change(function(e){
+            var fd = new FormData();
+  var files = $('#file')[0].files;
+  
+  // Check file selected or not
+  if(files.length > 0 ){
+     fd.append('file',files[0]);
+    //print(fd)
+     $.ajax({
+        url: '/upload',
+        type: 'POST',
+        data: fd,
+        contentType: false,
+        processData: false,
+     });
+  }else{
+     alert("Please select a file.");
+  }
+              var preview = document.querySelector('.img-upload-pic'); //selects the query named img
+              var file  = document.querySelector('input[type=file]').files[0];
+              var predict_button_click = document.getElementById("predict_button");
+              var find_face_shape = document.getElementById("predict_face_shape");
+              var reader  = new FileReader();
+              reader.onloadend = function () {
+              preview.src = reader.result;
+              $("#uploadfilename").val(file.name)
+              predict_button_click.style.color = "black";
+              predict_button_click.style.borderColor = "black";
+              document.querySelector('#featuressection').click();
+              find_face_shape.click();
+            }
+            if (file) {
+              reader.readAsDataURL(file); //reads the data as a URL
+            } else {
+              preview.src = "";
+              predict_button_click.style.color = "white";
+              predict_button_click.style.borderColor = "white";
+            }
+          });
+      });
+    </script>
   <!-- Navigation -->
   <!-- <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
@@ -182,6 +198,7 @@ document["predict_face_shape"].bind("click", get_face_shape)
                 font-size: 30px;
                 margin-top: 0;
           ">Upload Photo!</p>
+<<<<<<< HEAD
           <form action="upload.php" method="post" enctype="multipart/form-data">
             Select image to upload:
             <input type="file" name="fileToUpload" id="fileToUpload">
@@ -189,6 +206,10 @@ document["predict_face_shape"].bind("click", get_face_shape)
           </form>
 
           <input type="file" class="filenameupload" name="file" style="
+=======
+          <form method="post" action="" enctype="multipart/form-data" id="myform">
+          <input type="file" id="file" class="filenameupload" name="file" style="
+>>>>>>> f571febb8b6761a87d1850ced75dcec2b487d6fb
                 font-size: 1.25em;
                 font-weight: 700;
                 color: white;
@@ -196,6 +217,7 @@ document["predict_face_shape"].bind("click", get_face_shape)
                 display: inline-block;
                 cursor: pointer;
           ">
+          </form>
           <a href="#features" id="featuressection" style="visibility: hidden;"></a>
           <input type="hidden" id="uploadfilename" name="hiddenfilename" value="" />
           <input type="hidden" id="recommendimages" name="hiddenrecommendimages" value="" />
