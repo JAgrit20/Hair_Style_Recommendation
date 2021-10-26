@@ -182,6 +182,12 @@ document["predict_face_shape"].bind("click", get_face_shape)
                 font-size: 30px;
                 margin-top: 0;
           ">Upload Photo!</p>
+          <form action="upload.php" method="post" enctype="multipart/form-data">
+            Select image to upload:
+            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="submit" value="Upload Image" name="submit">
+          </form>
+
           <input type="file" class="filenameupload" name="file" style="
                 font-size: 1.25em;
                 font-weight: 700;
@@ -361,7 +367,7 @@ document["predict_face_shape"].bind("click", get_face_shape)
             </p>
         </dl>
         <p>
-            <input type="submit" value="Submit" class="btn btn-info">
+            <button type="submit" value="Submit" class="btn btn-info"> </button>
         </p>
     </form>
 </div>

@@ -324,15 +324,15 @@ def getting_image_attribute():
     path = "C:/Users/DELL/OneDrive - Shri Vile Parle Kelavani Mandal/Desktop/Hair_Style_Recommendation-master/static/uploads/"
     dirs = os.listdir( path )
 
-# This would print all the files and directories
-    for file in dirs:
-        newf = path+ file
-        make_face_df_save(newf, 0, df2)
-        # df2.append(df1)
+# # This would print all the files and directories
+#     for file in dirs:
+#         newf = path+ file
+#         make_face_df_save(newf, 0, df2)
+#         # df2.append(df1)
         
-    df2.to_csv('check.csv')    
-    print(df2)
-    # df2.to_csv('A:/Hairstyle_recommender/Hair_Style_Recommendation/df_test.csv')
-    print(find_face_shape(df2, 0))
+#     df2.to_csv('check.csv')    
+#     print(df2)
+#     # df2.to_csv('A:/Hairstyle_recommender/Hair_Style_Recommendation/df_test.csv')
+#     print(find_face_shape(df2, 0))
     
-getting_image_attribute()
+# getting_image_attribute()
