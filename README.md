@@ -1,6 +1,11 @@
 # Hair Style Recommendation
 ----------------
+# Demo Added 
 ![alt text](https://github.com/JAgrit20/Hair_Style_Recommendation/blob/master/1.png)
+![alt text](https://github.com/JAgrit20/Hair_Style_Recommendation/blob/master/2.png)
+![alt text](https://github.com/JAgrit20/Hair_Style_Recommendation/blob/master/3.png)
+![alt text](https://github.com/JAgrit20/Hair_Style_Recommendation/blob/master/4.png)
+![alt text](https://github.com/JAgrit20/Hair_Style_Recommendation/blob/master/5.png)
 
 * [Jupyter Notebook](https://github.com/hussein073/Hair_Style_Recommendation/blob/master/Hair_Style_Recommender.ipynb)
 * [Presentation (Google Slides)](https://docs.google.com/presentation/d/1P00kP9RlkvARpfdGx9BnJ7n1cBU9U7WlW1D8v1zjY-0/edit?usp=sharing)
